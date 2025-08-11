@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net"
+	"os"
 	"time"
 
 	// This import path now matches your go.mod file
@@ -69,7 +70,8 @@ func (s *server) Subscribe(req *stream.StreamRequest, srv stream.Streamer_Subscr
 
 func main() {
 	// Set up a TCP listener on port 50051.
-	lis, err := net.Listen("tcp", ":50051")
+	port := os.Getenv("PORT")
+	lis, err := net.Listen("tcp", ":"+port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
