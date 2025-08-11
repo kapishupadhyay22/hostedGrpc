@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+import "google/protobuf/struct.proto";
+
+package stream;
+option go_package = "./stream";
+
+// The request to start the stream
+message StreamRequest {
+  string client_id = 1;
+}
+
+// A single event message sent from the server
+message Event {
+  string event_id = 1;
+  string type = 2;
+  // Using Struct for a flexible JSON-like payload
+  google.protobuf.Struct payload = 3;
+}
+
+// The gRPC service definition
+service Streamer {
+  // A server-to-client streaming RPC
+  rpc Subscribe(StreamRequest) returns (stream Event);
+}
